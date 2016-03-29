@@ -64,7 +64,7 @@ $bundles = array(
 twig:
     form_themes:
         - 'TetranzSelect2EntityBundle:Form:fields.html.twig'
-        
+
 ```
 * Load the Javascript on the page. The simplest way is to add the following to your layout file. Don't forget to run console assets:install. Alternatively, do something more sophisticated with Assetic.
 ```
@@ -85,6 +85,7 @@ $builder
             'multiple' => true,
             'remote_route' => 'tetranz_test_default_countryquery',
             'class' => '\Tetranz\TestBundle\Entity\Country',
+            'primary_key' => 'id',
             'text_property' => 'name',
             'minimum_input_length' => 2,
             'page_limit' => 10,
@@ -103,7 +104,8 @@ use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 ##Options##
 Defaults will be used for some if not set.
 * `class` is your entity class. Required
-* `text_property` This is the entity property used to retrieve the text for existing data. 
+* `primary_key` is the name of the property used to uniquely identify entities. Defaults to 'id'
+* `text_property` This is the entity property used to retrieve the text for existing data.
 If text_property is omitted then the entity is cast to a string. This requires it to have a __toString() method.
 * `multiple` True for multiple select (many to many). False for single (many to one) select.
 * `minimum_input_length` is the number of keys you need to hit before the search will happen. Defaults to 2.
@@ -138,6 +140,7 @@ The controller should return a `JSON` array in the following format. The propert
   { id: 2, text: 'Displayed Text 2' }
 ]
 ```
+
 ##Custom option text##
 If you need more flexibility in what you display as the text for each option, such as displaying the values of several fields from your entity or showing an image inside, you may define your own custom transformer. For that, extend EntityToPropertyTransformer or EntitiesToPropertyTransformer and redefine the transform() method. This way you can return as `text` anything you want, not just one entity property.
 We recommend you to extend EntityToPropertyTransformer or EntitiesToPropertyTransformer, but if you need more flexibility you could just implement DataTransformerInterface.
@@ -161,7 +164,7 @@ $data[] = array(
 ```
 Your custom transformer and respectively your Ajax controller should return an array in the following format:
 ```javascript
-[ 
+[
     { id: 1, text: 'United Kingdom (Europe)' },
     { id: 1, text: 'China (Asia)' }
 ]
@@ -173,7 +176,7 @@ If you need [Templating](https://select2.github.io/examples.html#templating) in 
 
 Your custom transformer should return data like this:
 ```javascript
-[ 
+[
     { id: 1, text: 'United Kingdom (Europe)', img: 'images/flags/en.png' },
     { id: 2, text: 'China (Asia)', img: 'images/flags/ch.png' }
 ]
